@@ -1,0 +1,6 @@
+##https://www.db-fiddle.com/
+
+CREATE TABLE Kunden
+(
+    firstname varchar(50)
+)
