@@ -153,18 +153,96 @@ CREATE TABLE Produkte
     Preis real,
     ProdKatIdFk int -- FK Constraints
 
-)
+);
 
 CREATE TABLE ProduktEigenschaften
 (
     ProduktIdFk int, -- Constraint
     Eigenschaft varchar(50)
-)
+);
 
 CREATE TABLE ProduktKategorien
 (
     Kategorie varchar(50)
-)
+);
+
+
+SELECT name FROM sqlite_master WHERE type='table';
+
+INSERT INTO ProduktKategorien VALUES('Telkommunikation');
+INSERT INTO ProduktKategorien VALUES('Bürowaren');
+
+INSERT Mutlitple Rows
+INSERT INTO ProduktKategorien VALUES
+('a'),
+('b'),
+('c');
+
+SELECT rowid, * FROM ProduktKategorien;
+
+
+DELETE FROM ProduktKategorien WHERE rowid=2;
+
+INSERT INTO ProduktKategorien VALUES('Schreibwaren');
+
+SELECT rowid, * FROM ProduktKategorien;
+
+SELECT rowid AS Id, * FROM ProduktKategorien;
+
+UPDATE ProduktKategorien
+SET Kategorie='Schreib- und Papierwaren'
+WHERE Kategorie='Schreibwaren';
+
+SELECT rowid, * FROM ProduktKategorien;
+
+SELECT rowid , * FROM ProduktKategorien
+ORDER BY rowid desc;
+
+INSERT INTO
+Produkte(Bezeichnung, Preis, ProdKatIdFk)
+VALUES('Handy',120.99, 1);
+
+SELECT * FROM Produkte;
+
+--JOIN Werte aus mehreren Tabellen anzeigen
+
+SELECT p.Bezeichnung, p.Preis, k.Kategorie
+FROM Produkte AS p, ProduktKategorien AS k
+--JOIN
+WHERE p.ProdKatIdFk = k.rowid;
+
+SELECT p.Bezeichnung, p.Preis, k.Kategorie,
+p.rowid, k.rowid
+FROM Produkte p, ProduktKategorien k
+--JOIN
+WHERE p.ProdKatIdFk = k.rowid;
+
+
+
+SELECT Produkte.Bezeichnung, Produkte.Preis, ProduktKategorien.Kategorie
+FROM Produkte, ProduktKategorien
+--JOIN
+WHERE Produkte.ProdKatIdFk = ProduktKategorien.rowid;
+
+SELECT p.Bezeichnung, p.Preis, k.Kategorie,
+p.rowid AS PId, k.rowid As KId
+FROM Produkte p, ProduktKategorien k
+--JOIN
+WHERE p.ProdKatIdFk = k.rowid;
+
+INSERT INTO ProduktEigenschaften(ProduktIdFk, Eigenschaft)
+VALUES(1,'Rot');
+
+INSERT INTO ProduktEigenschaften(ProduktIdFk, Eigenschaft)
+VALUES(1,'5G');
+
+
+SELECT p.Bezeichnung, p.Preis, k.Kategorie,e.Eigenschaft,
+p.rowid AS PId, k.rowid As KId, e.rowid AS EId
+FROM Produkte p, ProduktKategorien k, ProduktEigenschaften e
+--JOIN
+WHERE p.ProdKatIdFk = k.rowid
+AND e.ProduktIdFk = p.rowid;
 
 
 
