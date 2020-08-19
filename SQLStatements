@@ -27,7 +27,9 @@ SELECT PLZ, Geschlecht, Firstname FROM Kunden;
 
 UPDATE Kunden
 SET Firstname='Johann', Plz=5020
-WHERE Firstname='Hans'
+WHERE Firstname='Hans';
+
+SELECT * FROM Kunden;
 
 
 
