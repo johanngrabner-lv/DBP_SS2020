@@ -19,6 +19,7 @@ DML - Data Manipulation Language
 INSERT INTO Kunden(Firstname, Geschlecht, Plz)
 VALUES('Hans','M',8010);
 
+DQL
 SELECT PLZ, Geschlecht, Firstname FROM Kunden;
 
 INSERT INTO Kunden VALUES('Maria',1010,'W');
@@ -35,6 +36,10 @@ DELETE FROM Kunden
 WHERE Firstname='Johann';
 
 SELECT * FROM Kunden;
+
+1. Normalform
+enthält Wiederholungen,
+Jede Zeile muss eindeutig identifizierbar - Primary Key -- rowid
 
 
 
