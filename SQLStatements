@@ -31,5 +31,11 @@ WHERE Firstname='Hans';
 
 SELECT * FROM Kunden;
 
+DELETE FROM Kunden
+WHERE Firstname='Johann';
+
+SELECT * FROM Kunden;
+
+
 
 
