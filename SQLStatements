@@ -32,8 +32,6 @@ WHERE Firstname='Hans';
 
 SELECT * FROM Kunden;
 
-DELETE FROM Kunden
-WHERE Firstname='Johann';
 
 SELECT * FROM Kunden;
 
@@ -64,6 +62,23 @@ CREATE  TABLE  Telefonnummern
 
  SELECT * FROM Telefonnummern
  WHERE KundenNrFK=1;
+
+
+ -- Variante a
+ SELECT Firstname, Telefonnummer
+ FROM Kunden k -- k ist ein alias
+ JOIN Telefonnummern t --t ist ein alias
+ ON k.rowid = t.KundenNrFK; --welche Spalten stehen in Beziehung
+
+ --Variante b
+ SELECT Firstname, Telefonnummer
+ FROM Kunden k, -- k ist ein alias
+ Telefonnummern t --t ist ein alias
+ WHERE k.rowid = t.KundenNrFK; --welche Spalten stehen in
+
+
+ DELETE FROM Kunden
+ WHERE Firstname='Johann';
 
 
 
