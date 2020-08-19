@@ -21,3 +21,5 @@ VALUES('Hans','M',8010);
 
 SELECT PLZ, Geschlecht, Firstname FROM Kunden;
 
+INSERT Kunden VALUES('Maria','W',1010);
+
