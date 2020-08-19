@@ -1,6 +1,23 @@
 ##https://www.db-fiddle.com/
 
+SQl-Wiederholung
+
+--DDL Data Definition Language
+---> Objekte (Tabellen) erzeugen, löschen, verändern
+
 CREATE TABLE Kunden
 (
-    firstname varchar(50)
+    Firstname VARCHAR(50),
+    Plz int,
+    Geschlecht VARCHAR(1)
 )
+
+DROP TABLE Kunden
+ALTER TABLE
+
+DML - Data Manipulation Language
+INSERT INTO Kunden(Firstname, Geschlecht, Plz)
+VALUES('Hans','M',8010);
+
+SELECT PLZ, Geschlecht, Firstname FROM Kunden;
+
