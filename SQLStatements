@@ -58,12 +58,12 @@ CREATE  TABLE  Telefonnummern
     Telefonnummer varchar(20)
  )
 
- INSERT INTO Telefonnummern(1,'privat','0316')
- INSERT INTO Telefonnummern(2,'business','0650')
- INSERT INTO Telefonnummern(2,'privat','0676')
+ INSERT INTO Telefonnummern(1,'privat','0316');
+ INSERT INTO Telefonnummern(2,'business','0650');
+ INSERT INTO Telefonnummern(2,'privat','0676');
 
  SELECT * FROM Telefonnummern
- WHERE KundenNrFK=1
+ WHERE KundenNrFK=1;
 
 
 
