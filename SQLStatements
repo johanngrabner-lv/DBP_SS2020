@@ -25,4 +25,9 @@ INSERT INTO Kunden VALUES('Maria',1010,'W');
 
 SELECT PLZ, Geschlecht, Firstname FROM Kunden;
 
+UPDATE Kunden
+SET Vorname='Johann', Plz=5020
+WHERE Vorname='Hans'
+
+
 
