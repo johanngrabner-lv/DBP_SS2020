@@ -128,7 +128,47 @@ Nr Bez  Preis Tags                Kategorie
 2.) CREATE TABLE Statments
 3.) DML Statements (Insert, Update, Delete, Select inkl. Join)
 
+
 13:30 Uhr Auflösung
+
+Produkte
+(rowid) -- PK
+Bezeichnung (String/ Text)
+Preis (Zahl)
+ProdKatIdFk -- Foreign Key ProduktKategorien(rowid)
+
+ProduktEigenschaften
+(rowid) -- PK
+ProduktIdFk -- Foreign Key Produkte(rowid)
+Eigenschaft (String)
+
+ProduktKategorien
+(rowid) PK
+Kategorie
+
+DDL
+CREATE TABLE Produkte
+(
+    Bezeichnung varchar(50),
+    Preis real,
+    ProdKatIdFk int -- FK Constraints
+
+)
+
+CREATE TABLE ProduktEigenschaften
+(
+    ProduktIdFk int, -- Constraint
+    Eigenschaft varchar(50)
+)
+
+CREATE TABLE ProduktKategorien
+(
+    Kategorie varchar(50)
+)
+
+
+
+
 
 
 
