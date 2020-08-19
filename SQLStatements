@@ -39,7 +39,49 @@ SELECT * FROM Kunden;
 
 1. Normalform
 enthält Wiederholungen,
-Jede Zeile muss eindeutig identifizierbar - Primary Key -- rowid
+-Jede Zeile muss eindeutig identifizierbar - Primary Key, Unique -- rowid
+-Atomar Strasse: "Hauptplatz 17"
+Strasse:"Hauptplatz", Hausnummer: "17"
+
+2. Normalform
+Telefonnummer '+43 650 223423423'
+Wiederholungsgruppen
+Tel1: 0316, Tel2: 065, Tel3: 0664
+
+Telefonnummern
+CREATE  TABLE  Telefonnummern
+(
+    --- rowid PK
+    --- Fremdschlüssel -- PK-Spalte der 1-Seite
+    KundenNrFK int,
+    Telefonart varchar(20),
+    Telefonnummer varchar(20)
+ )
+
+ INSERT INTO Telefonnummern(1,'privat','0316')
+ INSERT INTO Telefonnummern(2,'business','0650')
+ INSERT INTO Telefonnummern(2,'privat','0676')
+
+ SELECT * FROM Telefonnummern
+ WHERE KundenNrFK=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. Normalform --- transitive Abhängigkeiten
+
 
 
 
