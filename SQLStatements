@@ -21,5 +21,8 @@ VALUES('Hans','M',8010);
 
 SELECT PLZ, Geschlecht, Firstname FROM Kunden;
 
-INSERT Kunden VALUES('Maria','W',1010);
+INSERT INTO Kunden VALUES('Maria',1010,'W');
+
+SELECT PLZ, Geschlecht, Firstname FROM Kunden;
+
 
