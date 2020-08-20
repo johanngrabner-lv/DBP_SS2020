@@ -15,3 +15,57 @@
 
 1 200.70 7 --- Foreign Key Constraint sollte verhindern, dass eine ungültige Nr eingegeben wird
 2 15.00  1
+
+1. Normalform (PK - rowid, atomar  --- NameGesamt "Johann Karl Grabner"
+2. Normalform - Wiederholungsgruppen Tel1, Tel2, Tel4, Tel5,....
+3. Transitive Abhängigkeiten 1 Hans 2 Silver
+
+
+DDL
+
+CREATE TABLE Studierende
+(
+    Vorname VARCHAR(20),
+    Punkte int
+)
+
+DML
+INSERT INTO Studierende(Vorname,Punkte) VALuES('Leonie',20);
+INSERT INTO Studierende(Vorname,Punkte) VALuES('Silke',25),('Iro',21);
+
+SELECT rowid, Vorname as First, Punkte
+FROM Studierende
+
+
+
+CREATE TABLE Hobbies
+(
+    StudierendeNrFK int,
+    Hobby VARCHAR(50)
+
+
+)
+
+
+
+INSERT INTO Hobbies VALUES(1,'PHP'),(1,'SQL'),(2,'Laufen'),(2,'C#');
+
+SELECT * FROM Hobbies;
+
+--Inner JOIN, EQUI Join - Gleichheit
+SELECT s.Vorname, s.Punkte, h.Hobby
+FROM Studierende s, Hobbies h
+WHERE s.rowid = h.StudierendeNrFK
+
+--Left JOIN
+    SELECT s.Vorname, s.Punkte, h.Hobby
+    FROM Studierende s, Hobbies h
+    WHERE s.rowid = h.StudierendeNrFK
+
+    --LEFT JOIN - würde Anomalien zeigen, sofern kein FK-Constraint existiert
+    SELECT s.Vorname, s.Punkte, h.Hobby
+    FROM Hobbies h
+    LEFT JOIN Studierende s
+    ON s.rowid = h.StudierendeNrFK;
+
+
