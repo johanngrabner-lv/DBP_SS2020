@@ -27,20 +27,20 @@ public class DbHelper {
     }
 
     public void CreateKundenTable(){
-        String createTable="CREATE TABLE Kunden(Vorname varchar(20));";
+        String createTable="CREATE TABLE Prod(Vorname varchar(20));";
 
         try {
             //Statment kapselt SQL-Anweisungen
             Statement stmt = con.createStatement();
 
-            stmt.executeUpdate("DROP TABLE Kunden");
+            stmt.executeUpdate("DROP TABLE Prod");
             //Abschicken an die Datenbank
             //CREATE, INSERT, UPDATE, DELETE --- executeUpdate
             stmt.executeUpdate(createTable);
 
-            stmt.executeUpdate("INSERT INTO Kunden VALUES('Aiste')");
-            stmt.executeUpdate("INSERT INTO Kunden VALUES('Emina')");
-            stmt.executeUpdate("INSERT INTO Kunden VALUES('Kerstin')");
+            stmt.executeUpdate("INSERT INTO Prod VALUES('Aiste')");
+            stmt.executeUpdate("INSERT INTO Prod VALUES('Emina')");
+            stmt.executeUpdate("INSERT INTO Prod VALUES('Kerstin')");
 
             //SELECT -->  stmt.executeQuery()
 
@@ -53,7 +53,7 @@ public class DbHelper {
     {
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT rowid, vorname FROM  Kunden");
+            ResultSet rs = stmt.executeQuery("SELECT rowid, vorname FROM  Prod");
             //rs Zeiger auf das "virtuelle Ergebniss"
             //mit rs.Next() wird der Zeiger auf die nächste Zeile gesetzt
             /*
@@ -72,6 +72,64 @@ public class DbHelper {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public boolean tableExists(String tableName){
+        String selectCount="";
+        selectCount += "SELECT count(*) as Anzahl FROM sqlite_master WHERE type='table' ";
+        selectCount += " and name='" + tableName + "'";
+
+        boolean exists=false;
+
+        try {
+            Statement stmt= con.createStatement();
+            ResultSet rs = stmt.executeQuery(selectCount);
+            rs.next();
+            if (rs.getInt("Anzahl")==0)
+                exists=false;
+            else
+                exists=true;
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return exists;
+    }
+
+
+    public void createTable(String tableName, String ddl)
+    {
+        String createSQL = "CREATE TABLE " + tableName;
+        createSQL += ddl;
+
+        try {
+            Statement stmt= con.createStatement();
+            if (tableExists(tableName)==false)
+                 stmt.executeUpdate(createSQL);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public void addProdukt(String bezeichnung, double price)
+    {
+        String insertSQL = "INSERT INTO Produkte VALUES(";
+        insertSQL += "'" + bezeichnung + "', ";
+        insertSQL += price + ")";
+
+        try {
+            Statement stmt= con.createStatement();
+
+            stmt.executeUpdate(insertSQL);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 }
 
