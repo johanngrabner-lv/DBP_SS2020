@@ -1,0 +1,17 @@
+19.08.2020
+
+
+--- DB Normalisierung
+- Anomalien vermeiden, Konsistenz gewährleisten, Redundanzen vermeiden
+
+1 Hans 2 Silver
+2 Maria 2 Gold
+
+1 Hans 2
+2 Maria 2
+
+2 Silver
+
+
+1 200.70 7 --- Foreign Key Constraint sollte verhindern, dass eine ungültige Nr eingegeben wird
+2 15.00  1
