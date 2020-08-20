@@ -69,3 +69,5 @@ WHERE s.rowid = h.StudierendeNrFK
     ON s.rowid = h.StudierendeNrFK;
 
 
+10:00 Uhr Pause -
+
