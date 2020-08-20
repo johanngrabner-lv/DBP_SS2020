@@ -101,13 +101,16 @@ public class DbHelper {
 
     public void createTable(String tableName, String ddl)
     {
-        String createSQL = "CREATE TABLE " + tableName;
-        createSQL += ddl;
 
         try {
-            Statement stmt= con.createStatement();
             if (tableExists(tableName)==false)
-                 stmt.executeUpdate(createSQL);
+            {
+                String createSQL = "CREATE TABLE " + tableName;
+                createSQL += ddl;
+
+                Statement stmt= con.createStatement();
+                stmt.executeUpdate(createSQL);
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -136,9 +139,6 @@ public class DbHelper {
         String select="";
         select += "SELECT rowid, Produktbezeichnung, preis  ";
         select += " FROM Produkte";
-
-
-
         try {
             Statement stmt= con.createStatement();
             ResultSet rs = stmt.executeQuery(select);
@@ -153,6 +153,8 @@ public class DbHelper {
                 gesamtPreis += rs.getDouble("Preis");
             }
             System.out.println("Geht auch " + (gesamtPreis / counter));
+
+
 
             select = "SELECT AVG(Preis) AS Durchschnitt FROM Produkte";
              rs = stmt.executeQuery(select);
