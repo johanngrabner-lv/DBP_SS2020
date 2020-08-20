@@ -71,3 +71,32 @@ WHERE s.rowid = h.StudierendeNrFK
 
 10:00 Uhr Pause -
 
+Aufgabe JDBC
+
+1. CreateProduktTabelle //drop table
+Produktabelle (NettoPreis, Bezeichnung)
+
+2. public void AddProducts(String bezeichnung, double preis)
+String insSql = "INSERT  INTO Produkte Values('" + bezeichnung + "', " + preis + ");";
+//INSERT INTO Produkte VALUES('Handy',20.3);
+
+
+3. public void ReadAllProducts() ---
+Am Ende soll der Durchschnittspreis ausgegeben werden
+Variante 1:  SELECT AVG(preis) FROM Produkte
+Variante 2:
+while (
+gesamtpreis += preis;
+counter++
+
+}
+
+double durch = gesamtpreis / counter;
+
+Auflösung um 13:30 Uhr - Mahlzeit :-)
+
+
+
+
+
+

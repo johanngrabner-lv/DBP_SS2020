@@ -18,7 +18,7 @@ public class DbHelper {
     private Connection con =null;
 
     public void OpenDatabase() {
-        String connectionString="jdbc:sqlite:dbHans";
+        String connectionString="jdbc:sqlite:Host:128.10.12.14";
         try {
             con = DriverManager.getConnection(connectionString);
         } catch (SQLException throwables) {
@@ -40,7 +40,7 @@ public class DbHelper {
 
             stmt.executeUpdate("INSERT INTO Kunden VALUES('Aiste')");
             stmt.executeUpdate("INSERT INTO Kunden VALUES('Emina')");
-            stmt.executeUpdate("INSERT INTO Kunden VALUES('Kertin')");
+            stmt.executeUpdate("INSERT INTO Kunden VALUES('Kerstin')");
 
             //SELECT -->  stmt.executeQuery()
 
