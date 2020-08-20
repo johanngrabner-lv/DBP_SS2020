@@ -131,5 +131,40 @@ public class DbHelper {
         }
 
     }
+
+    public void readAllProdukte(){
+        String select="";
+        select += "SELECT rowid, Produktbezeichnung, preis  ";
+        select += " FROM Produkte";
+
+
+
+        try {
+            Statement stmt= con.createStatement();
+            ResultSet rs = stmt.executeQuery(select);
+            int counter=0;
+            double gesamtPreis=0;
+            while (rs.next()){
+                System.out.println(rs.getInt("rowid")
+                        + " " + rs.getString("Produktbezeichnung")
+                        + " "
+                        + rs.getDouble("Preis"));
+                counter++;
+                gesamtPreis += rs.getDouble("Preis");
+            }
+            System.out.println("Geht auch " + (gesamtPreis / counter));
+
+            select = "SELECT AVG(Preis) AS Durchschnitt FROM Produkte";
+             rs = stmt.executeQuery(select);
+            rs.next();
+            System.out.println("Durchschnitt " + rs.getDouble("Durchschnitt"));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
+
 }
 

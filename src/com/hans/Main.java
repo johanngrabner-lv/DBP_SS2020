@@ -17,6 +17,7 @@ public class Main {
         String ddl="(Produktbezeichnung varchar(20), Preis real)";
         myDbHelper.createTable("Produkte", ddl);
 
-        myDbHelper.addProdukt("Handy",100.40);
+       // myDbHelper.addProdukt("Bleistift",10.2);
+        myDbHelper.readAllProdukte();
     }
 }
