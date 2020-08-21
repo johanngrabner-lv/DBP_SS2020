@@ -7,6 +7,8 @@ in der Main Hello JDBC ausgeben
  */
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /* JAR - Java Archive --- Interface, Classe
 https://github.com/johanngrabner-lv/DBP_SS2020/blob/master/sqlite-jdbc-3.30.1.jar
@@ -174,7 +176,7 @@ public class DbHelper {
 
     public void addProduktPreparedStatement(String bezeichnung, double price)
     {
-        String insertSQL = "INSERT INTO Produkte VALUES(?,?)";
+        String insertSQL = "INSERT INTO Produkte VALUES(?,?);";
 
         //INSERT INTO Produkte VALUES('Handy',20)
 
@@ -182,11 +184,54 @@ public class DbHelper {
             PreparedStatement stmt= con.prepareStatement(insertSQL);
             stmt.setString(1,bezeichnung);
             stmt.setDouble(2,price);
-            stmt.executeUpdate(insertSQL);
+            stmt.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+    }
+
+    public void addProdukt(Produkt produkt)
+    {
+        String insertSQL = "INSERT INTO Produkte VALUES(?,?);";
+
+        //INSERT INTO Produkte VALUES('Handy',20)
+
+        try {
+            PreparedStatement stmt= con.prepareStatement(insertSQL);
+            stmt.setString(1,produkt.getProduktbezeichnung());
+            stmt.setDouble(2,produkt.getPreis());
+            stmt.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public List<Produkt> getAllProdukte(){
+        List<Produkt> ergebnis =new ArrayList<Produkt>();
+        String select="";
+        select += "SELECT rowid, Produktbezeichnung, preis  ";
+        select += " FROM Produkte";
+        try {
+            Statement stmt= con.createStatement();
+            ResultSet rs = stmt.executeQuery(select);
+
+            while (rs.next()){
+                Produkt p=new Produkt();
+                p.setProduktbezeichnung(rs.getString("Produktbezeichnung"));
+                p.setRowid(rs.getInt("rowid"));
+                p.setPreis(rs.getDouble("Preis"));
+                ergebnis.add(p);
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return ergebnis;
 
     }
 
