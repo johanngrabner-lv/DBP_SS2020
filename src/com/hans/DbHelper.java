@@ -18,7 +18,7 @@ public class DbHelper {
     private Connection con =null;
 
     public void OpenDatabase() {
-        String connectionString="jdbc:sqlite:Host:128.10.12.14";
+        String connectionString="jdbc:sqlite:dbHans";
         try {
             con = DriverManager.getConnection(connectionString);
         } catch (SQLException throwables) {
@@ -63,7 +63,9 @@ public class DbHelper {
             rs.next(); //am Ende der Tabelle --> false
             */
             while(rs.next()){
+
                 int rowid = rs.getInt("rowid");
+                inr rowidByIndex = rs.getInt(1);
                 String vorname = rs.getString("Vorname");
                 System.out.println("RowId " + rowid + " Vorname " + vorname);
             }
@@ -124,6 +126,8 @@ public class DbHelper {
         insertSQL += "'" + bezeichnung + "', ";
         insertSQL += price + ")";
 
+        //INSERT INTO Produkte VALUES('Handy',20)
+
         try {
             Statement stmt= con.createStatement();
 
@@ -165,6 +169,24 @@ public class DbHelper {
             throwables.printStackTrace();
         }
 
+
+    }
+
+    public void addProduktPreparedStatemtn(String bezeichnung, double price)
+    {
+        String insertSQL = "INSERT INTO Produkte VALUES(?,?)";
+
+        //INSERT INTO Produkte VALUES('Handy',20)
+
+        try {
+            PreparedStatement stmt= con.prepareStatement(insertSQL);
+            stmt.setString(1,bezeichnung);
+            stmt.setDouble(2,price);
+            stmt.executeUpdate(insertSQL);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
