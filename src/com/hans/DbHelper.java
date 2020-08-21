@@ -65,7 +65,7 @@ public class DbHelper {
             while(rs.next()){
 
                 int rowid = rs.getInt("rowid");
-                inr rowidByIndex = rs.getInt(1);
+                int rowidByIndex = rs.getInt(1);
                 String vorname = rs.getString("Vorname");
                 System.out.println("RowId " + rowid + " Vorname " + vorname);
             }
@@ -172,7 +172,7 @@ public class DbHelper {
 
     }
 
-    public void addProduktPreparedStatemtn(String bezeichnung, double price)
+    public void addProduktPreparedStatement(String bezeichnung, double price)
     {
         String insertSQL = "INSERT INTO Produkte VALUES(?,?)";
 

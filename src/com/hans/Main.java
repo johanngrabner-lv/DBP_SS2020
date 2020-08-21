@@ -18,6 +18,7 @@ public class Main {
         myDbHelper.createTable("Produkte", ddl);
 
        // myDbHelper.addProdukt("Bleistift",10.2);
+        myDbHelper.addProduktPreparedStatement("Computer",1500.00);
         myDbHelper.readAllProdukte();
     }
 }
