@@ -118,6 +118,52 @@ public class PersonsAndOrdersHelper {
 
     }
 
+    public int Demo2DMLInsertPersonen(String vorname, double punkte){
+//        String ddlCreatePersonen="CREATE TABLE Personen (Vorname varchar(20), Punkte decimal(10,2))";
+
+        String insertAsPreparedStmt = "INSERT INTO Personen(Vorname, Punkte) VALUES(?,?)";
+
+        int affected = 0;
+        try {
+            PreparedStatement stmt= con.prepareStatement(insertAsPreparedStmt);
+             stmt.setString(1,vorname);
+            stmt.setDouble(2,punkte);
+              affected = stmt.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return affected;
+
+    }
+
+    public void ReadAllPersonen(){
+
+        String selectAllPersonen = "SELECT rowid, * FROM  Personen";
+
+        int affected = 0;
+        try {
+            PreparedStatement stmt= con.prepareStatement(selectAllPersonen);
+           ResultSet rs = stmt.executeQuery();
+           while(rs.next()){
+               System.out.println(
+                       "rowid " +
+                       rs.getInt("rowid") +
+                       "Vorname " +
+                               rs.getString("Vorname") +
+                               "Punkte " +
+                               rs.getDouble("Punkte"));
+
+               System.out.println("null oder 0");
+
+           }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     //DML
     //DQL - while
     //DQL - if (rs.next
