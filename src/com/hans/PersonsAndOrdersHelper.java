@@ -6,6 +6,7 @@ leere Methode OpenDatabase
 in der Main Hello JDBC ausgeben
  */
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,67 @@ public class PersonsAndOrdersHelper {
         }
     }
 
+    //CREATE TABLE
+    public void Demo1DDLStatementCreatePersonen(){
+
+        String ddlCreatePersonen="CREATE TABLE Personen (Vorname varchar(20), Punkte decimal(10,2))";
+
+        try {
+            Statement   stmt = con.createStatement();
+            stmt.executeUpdate(ddlCreatePersonen);
+            System.out.println( "Tabelle wurde erstellt");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public boolean tableExists(String tableName){
+        String selectCount="";
+        selectCount += "SELECT * FROM sqlite_master WHERE type='table' ";
+        selectCount += " and name='" + tableName + "'";
+
+        boolean exists=false;
+
+        try {
+            Statement stmt= con.createStatement();
+            ResultSet rs = stmt.executeQuery(selectCount);
+            if (rs.next()==false) //es wurde kein Datensatz gefunden
+                    exists=false;
+            else
+                exists=true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return exists;
+    }
+
+    public void ReadAllTables(){
+        String selectAllTables="";
+        selectAllTables += "SELECT * FROM sqlite_master WHERE type='table' ";
+
+
+        try {
+            Statement stmt= con.createStatement();
+            ResultSet rs = stmt.executeQuery(selectAllTables);
+
+            while(rs.next())
+            {
+                System.out.println("Tabellenname: " + rs.getString("Name"));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
+
+    //DML
+    //DQL - while
+    //DQL - if (rs.next
 
 }
 

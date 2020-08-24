@@ -8,7 +8,18 @@ public class Main {
 
         PersonsAndOrdersHelper h =new PersonsAndOrdersHelper();
         h.OpenDatabase();
-        h.ForeignKeyDemo();
+       // h.ForeignKeyDemo();
+        if (h.tableExists("Personen")==false){
+            System.out.println("Tabelle ist noch nicht vorhanden");
+            h.Demo1DDLStatementCreatePersonen();
+        }
+        else
+        {
+            System.out.println("Tabelle vorhanden");
+        }
+        System.out.println("Alle Tabellen anzeigen");
+        h.ReadAllTables();
+
     }
 
     public static void Woche1(){
