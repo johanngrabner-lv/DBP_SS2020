@@ -1,0 +1,75 @@
+Normalisierung
+SQL --> Structured Query Language - ANSI
+
+DDL  - Data Definition Language
+
+(CREATE TABLE .... , ALTER TABLE .... DROP TABLE
+
+DML - Data Manipulation Language
+INSERT  INTO Kunden(Vorname, GebDat, Punkte) VALUES('Maria','01.07.1998',20);
+UPDATE Kunden SET Vorname='Kerstin', Punkte=17 WHERE rowid = 1;
+DELETE FROM Kunden WHERE (Punkte > 50 AND rowid = 2) OR Gebdat >='01.01.2000'
+
+DQL - Data Query Language
+SELECT Vorname, Punkte * 20 AS ZwanzigfachePunkte, Gebdat AS Geburtsdatum, 'Hallo'
+FROM Kunde AS k, Rechnungen AS r
+WHERE k.rowid = r.KundenNr
+
+
+DCL
+
+
+Demonstration Foreign Key
+CREATE TABLE Persons
+(
+  PId INTEGER PRIMARY KEY AUTOINCREMENT,
+  Firstname varchar(30)
+);
+
+CREATE TABLE Orders (
+
+    OrderNumber int NOT NULL,
+    PersonID int,
+    FOREIGN KEY (PersonID) REFERENCES Persons(PId)
+);
+
+PRAGMA foreign_keys=ON;
+
+  INSERT INTO Persons(Firstname) Values('Hans');
+INSERT INTO Persons(Firstname) Values('Kerstin');
+
+INSERT INTO Orders(OrderNumber,PersonId) Values(123,1);
+SELECT last_insert_rowid();
+
+DELETE From Persons where pid = 1;
+
+--INNER Equi JOIN
+SELECT o.OrderNumber, p.Firstname
+FROM Orders o JOIN Persons p
+ON o.PersonID = p.PId;
+
+--LEFT JOIN
+SELECT 'Left JOIN Beispiel';
+SELECT o.OrderNumber, p.Firstname
+FROM  Persons p LEFT JOIN  Orders o
+ON o.PersonID = p.PId;
+
+
+--Suche verwaiste Datensätze
+SELECT o.OrderNumber, p.Firstname
+FROM Orders o LEFT JOIN Persons p
+ON o.PersonID = p.PId;
+
+
+
+//Constraint  Syntax ist abängig von Datenbank-Technolieg (MS SQL, Oracle, SQLite,...
+//
+Vorgehen beim Löschen
+1. Detaildatensätze löschen -- z.B alle Aufträge
+2. Danach den Kunden selbst
+
+
+DELETE FROM Orders WHERE PersonID = 1;
+DELETE FROM Persons WHERE PId = 1;
+
+
