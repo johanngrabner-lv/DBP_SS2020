@@ -121,13 +121,13 @@ public class PersonsAndOrdersHelper {
     public int Demo2DMLInsertPersonen(String vorname, double punkte){
 //        String ddlCreatePersonen="CREATE TABLE Personen (Vorname varchar(20), Punkte decimal(10,2))";
 
-        String insertAsPreparedStmt = "INSERT INTO Personen(Vorname, Punkte) VALUES(?,?)";
+        String insertAsPreparedStmt = "INSERT INTO Personen(Vorname, Punkte) VALUES(?,null)";
 
         int affected = 0;
         try {
             PreparedStatement stmt= con.prepareStatement(insertAsPreparedStmt);
              stmt.setString(1,vorname);
-            stmt.setDouble(2,punkte);
+            //stmt.setDouble(2,punkte);
               affected = stmt.executeUpdate();
 
         } catch (SQLException throwables) {
@@ -154,7 +154,15 @@ public class PersonsAndOrdersHelper {
                                "Punkte " +
                                rs.getDouble("Punkte"));
 
-               System.out.println("null oder 0");
+               double dummy = rs.getDouble("Punkte");
+
+               if (dummy==0) {
+                   System.out.println("null oder 0");
+                   if (rs.wasNull() == true)
+                       System.out.println("war null");
+                   else
+                       System.out.println("war 0");
+               }
 
            }
 
@@ -167,6 +175,79 @@ public class PersonsAndOrdersHelper {
     //DML
     //DQL - while
     //DQL - if (rs.next
+
+    //Umgang mit Metadaten - http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_24_010.htm#mj4196eb216f99ab87f1ac411675a84b55
+    //DisplayMetaData() -- alle Tabelle, alle Spalten
+    // sqllite_master für Tabellen-Namen, danach JDBC Metadata
+    //11:50 Uhr
+
+    //https://www.javatpoint.com/DatabaseMetaData-interface
+    public void DisplayMetaData(){
+
+        try
+        {
+        DatabaseMetaData dbmd=con.getMetaData();
+
+        System.out.println("Driver Name: "+dbmd.getDriverName());
+        System.out.println("Driver Version: "+dbmd.getDriverVersion());
+        System.out.println("UserName: "+dbmd.getUserName());
+        System.out.println("Database Product Name: "+dbmd.getDatabaseProductName());
+        System.out.println("Database Product Version: "+dbmd.getDatabaseProductVersion());
+            String table[]={"TABLE"};
+            ResultSet rs=dbmd.getTables(null,null,null,table);
+
+            System.out.println("Details zu den Tabellen");
+            while(rs.next()){
+                String tableName = rs.getString(3);
+                System.out.println();
+                System.out.println("Tabelle: " + tableName);
+                ResultSet rsMeta = con.createStatement().executeQuery( "SELECT * FROM " + tableName );
+                ResultSetMetaData meta = rsMeta.getMetaData();
+
+                int numerics = 0;
+
+                for ( int i = 1; i <= meta.getColumnCount(); i++ )
+                {
+                    System.out.printf( "%-20s %-20s%n", meta.getColumnLabel( i ),
+                            meta.getColumnTypeName( i ) );
+
+                    if ( meta.isSigned( i ) )
+                        numerics++;
+                }
+
+
+                System.out.println( "Spalten: " + meta.getColumnCount() +
+                        ", Numerisch: " + numerics );
+            }
+        } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+    }
+
+    public void readTablesKerstin() {
+        String SQLSelectAllTable = " SELECT * FROM sqlite_master WHERE type='table'";
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(SQLSelectAllTable);
+            while (rs.next()) {
+                //Ausgabe der Tabellennamen in der Datenbank
+                String tabellenname = rs.getString("Name");
+                System.out.println("Tabellenname: " + tabellenname);
+
+                //Holen der Spaltennamen aus der Tabelle
+                ResultSet rs2 = con.createStatement().executeQuery("SELECT * FROM " + tabellenname);
+                while (rs2.next()) {
+                    int spaltenzahl = rs2.getMetaData().getColumnCount();
+                    for (int i = 1; i <= spaltenzahl; i++) {
+                        System.out.println("Spalte " + i + ": " + rs2.getMetaData().getColumnLabel(i));
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
 
 }
 

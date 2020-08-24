@@ -20,9 +20,12 @@ public class Main {
         System.out.println("Alle Tabellen anzeigen");
         h.ReadAllTables();
         System.out.println("Person hinzufügen");
-        h.Demo2DMLInsertPersonen("Jasmin",0);
+      //  h.Demo2DMLInsertPersonen("Verena",12);
 
         h.ReadAllPersonen();
+        System.out.println("MetaData");
+        //h.DisplayMetaData();
+
     }
 
     public static void Woche1(){
