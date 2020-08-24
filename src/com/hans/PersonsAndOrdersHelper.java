@@ -23,6 +23,8 @@ public class PersonsAndOrdersHelper {
         String connectionString="jdbc:sqlite:dbHans";
         try {
             con = DriverManager.getConnection(connectionString);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("PRAGMA foreign_keys=on;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -30,7 +32,7 @@ public class PersonsAndOrdersHelper {
 
     public void ForeignKeyDemo(){
         String createTable="CREATE TABLE Persons\n" +
-                "(\n" +
+                "(" +
                 "  PId INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Firstname varchar(30)\n" +
                 ");";
@@ -39,21 +41,19 @@ public class PersonsAndOrdersHelper {
 
             Statement stmt = con.createStatement();
            // stmt.executeUpdate(createTable);
-            createTable="CREATE TABLE Orders (\n" +
-                    "    \n" +
-                    "    OrderNumber int NOT NULL,\n" +
-                    "    PersonID int,\n" +
-                    "   \n" +
+            createTable="CREATE TABLE Orders (" +
+                     "    OrderNumber int NOT NULL," +
+                    "    PersonID int," +
                     "    FOREIGN KEY (PersonID) REFERENCES Persons(PId)\n" +
                     ");";
           //  stmt.executeUpdate(createTable);
-            stmt.executeUpdate("PRAGMA foreign_keys=on;");
+
             stmt.executeUpdate("INSERT INTO Persons(Firstname) Values('Hans');");
             stmt.executeUpdate("INSERT INTO Persons(Firstname) Values('Maria');");
             stmt.executeUpdate("\n" +
                     "INSERT INTO Orders(OrderNumber,PersonId) Values(123,1);");
-
-            stmt.executeUpdate("DELETE From Persons where pid = 3;");
+            stmt.executeUpdate("DELETE From Orders where PersonID = 1;");
+            stmt.executeUpdate("DELETE From Persons where pid = 1;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -38,15 +38,15 @@ existiert = myDbHelper.tableExists("Produkte");
    //myDbHelper.addProdukt(p1);
    //myDbHelper.readAllProdukte();
    /*
-   //2. Aufgabe */
+   //2. Aufgabe
         List<Produkt> alleProdukte = myDbHelper.getAllProdukte();
 
         System.out.println(alleProdukte);
+        */
+
         //rowid, Bezeichnung, Preis
 
 
-
-   */
 
     }
 }
