@@ -139,7 +139,7 @@ public class PersonsAndOrdersHelper {
 
     public void ReadAllPersonen(){
 
-        String selectAllPersonen = "SELECT rowid, * FROM  Personen";
+        String selectAllPersonen = "SELECT rowid, *, ifnull(Punkte,'Punkte sind null') as IstNull FROM  Personen";
 
         int affected = 0;
         try {
@@ -154,6 +154,8 @@ public class PersonsAndOrdersHelper {
                                "Punkte " +
                                rs.getDouble("Punkte"));
 
+
+               System.out.println(rs.getString("IstNull"));
                double dummy = rs.getDouble("Punkte");
 
                if (dummy==0) {
@@ -224,6 +226,7 @@ public class PersonsAndOrdersHelper {
     }
     }
 
+
     public void readTablesKerstin() {
         String SQLSelectAllTable = " SELECT * FROM sqlite_master WHERE type='table'";
         try {
@@ -236,11 +239,11 @@ public class PersonsAndOrdersHelper {
 
                 //Holen der Spaltennamen aus der Tabelle
                 ResultSet rs2 = con.createStatement().executeQuery("SELECT * FROM " + tabellenname);
-                while (rs2.next()) {
+               // if (rs2.next()) {
                     int spaltenzahl = rs2.getMetaData().getColumnCount();
                     for (int i = 1; i <= spaltenzahl; i++) {
                         System.out.println("Spalte " + i + ": " + rs2.getMetaData().getColumnLabel(i));
-                    }
+                   // }
                 }
             }
         } catch (SQLException throwables) {

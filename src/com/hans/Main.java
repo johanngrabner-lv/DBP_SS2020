@@ -1,14 +1,88 @@
 package com.hans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
+        klausurVorbereitung kv =new klausurVorbereitung();
+        System.out.println("Hello Campus02");
+        kv.init();
+        System.out.println("init was successful");
+        int affected=0;
+      // affected =  kv.dropKundenTable();
+        System.out.println("Result from drop " + affected);
+      // affected = kv.createKundenTable();
+        System.out.println("Result from create " + affected);
+      //  affected = kv.createRechnungenTable();
+        System.out.println("Result from create rechnungen " + affected);
+        kv.displayMetaData();
+
+
+        int newIdValue=0;
+
+        /*
+        Kunde k=new Kunde();
+        k.setKdnr(-1);
+        k.setVorname("Johann");
+        k.setNachname("Grabner");
+        k.setGeschlecht("xxx");
+        k.setBonuspunkte(300);
+         newIdValue = kv.insertKundeAndSetNewId(k);
+        k.setKdnr(newIdValue);*/
+
+
+
+
+
+
+        Kunde k1=new Kunde();
+        k1.setKdnr(1);
+        k1.setVorname("Johann");
+        k1.setNachname("Grabner");
+        k1.setGeschlecht("Mann");
+        k1.setBonuspunkte(200);
+
+        Kunde k2=new Kunde();
+        k2.setKdnr(3);
+        k2.setVorname("Kerstin");
+        k2.setNachname("Müller");
+        k2.setGeschlecht("Frau");
+        k2.setBonuspunkte(300);
+
+        Rechnung rNeu =new Rechnung();
+        rNeu.setRenr(-1); //Readability
+        rNeu.setDatum("1.1.2020");
+        rNeu.setGesamtbetrag(4000);
+
+        //kv.dropRechnungenTable();
+       // kv.createRechnungenTable();
+
+       // newIdValue = kv.insertRechnungAndSetNewId(rNeu,k2);
+
+        Kunde kSuche = kv.getKundeByKdnr(1);
+        System.out.println(kSuche);
+
+        kSuche.setVorname("Karli");
+       // kv.updateKunde(kSuche);
+
+        System.out.println("Alle Kunden");
+        List<Kunde> alleKunden = kv.getAlleKunden();
+        System.out.println(alleKunden);
+
+        System.out.println("Alle weiblichen Kunden");
+        List<Kunde> alleWeiblicheKunden = kv.getAlleWeiblichenKundenInnen();
+        System.out.println(alleWeiblicheKunden);
+
+    }
+
+    public static void Woche2()
+    {
 
         PersonsAndOrdersHelper h =new PersonsAndOrdersHelper();
         h.OpenDatabase();
-       // h.ForeignKeyDemo();
+        // h.ForeignKeyDemo();
         if (h.tableExists("Personen")==false){
             System.out.println("Tabelle ist noch nicht vorhanden");
             h.Demo1DDLStatementCreatePersonen();
@@ -20,11 +94,12 @@ public class Main {
         System.out.println("Alle Tabellen anzeigen");
         h.ReadAllTables();
         System.out.println("Person hinzufügen");
-      //  h.Demo2DMLInsertPersonen("Verena",12);
+        //  h.Demo2DMLInsertPersonen("Verena",12);
 
         h.ReadAllPersonen();
         System.out.println("MetaData");
         //h.DisplayMetaData();
+        h.readTablesKerstin();
 
     }
 
