@@ -9,6 +9,8 @@ public class klausurVorbereitung {
     Statement stmt=null;
     PreparedStatement pStmt =null;
 
+    private String kundenTableName="Kunden";
+
     public void init() {
         String connectionString="jdbc:sqlite:dbKlausurvorbereitungV1";
         try {
@@ -41,7 +43,7 @@ public class klausurVorbereitung {
         return  affected;
     }
     public int dropKundenTable() {
-        String ddl = "DROP TABLE Kunden; ";
+        String ddl = "DROP TABLE  " + kundenTableName;
         System.out.println("DDL to drop the Kunden-Table " +  ddl);
 
         return  -99;
@@ -49,7 +51,7 @@ public class klausurVorbereitung {
     }
     public int createKundenTable(){
         String ddl="CREATE TABLE ";
-        ddl += " Kunden(KDNR INTEGER PRIMARY KEY AUTOINCREMENT, ";
+        ddl += kundenTableName + " (KDNR INTEGER PRIMARY KEY AUTOINCREMENT, ";
         ddl += " Vorname VARCHAR(20), ";
         ddl += " Nachname VARCHAR(20), ";
         ddl += " Geschlecht VARCHAR(5), ";
@@ -194,7 +196,6 @@ public class klausurVorbereitung {
 
                 k.setBonuspunkte(rs.getDouble("Bonuspunkte"));
 
-                Objekt <--> Row
 
             }
 
@@ -331,4 +332,138 @@ public class klausurVorbereitung {
             throwables.printStackTrace();
         }
     }
+
+    public void insertKundeUndRechnungen(ArrayList<Rechnung> neueRechnungen, Kunde neuerKunde)
+    {
+        insertKundeAndSetNewId(neuerKunde);
+        for (Rechnung r : neueRechnungen) {
+            r.setKdnr(neuerKunde.getKdnr());
+            insertRechnungAndSetNewId(r,neuerKunde);
+        }
+    }
+
+    public void updateRechnung(Rechnung rechnung)
+    {
+        String updateString="UPDATE Rechnungen SET Gesamtbetrag=?, Datum=?, KDNR=?";
+        updateString += " WHERE ReNr= ?;";
+
+        try {
+            pStmt= getPreoparedStatement(updateString);
+            pStmt.setDouble(1,rechnung.getGesamtbetrag());
+            pStmt.setString(2,rechnung.getDatum());
+            pStmt.setInt(3,rechnung.getKdnr());
+
+            pStmt.setInt(4,rechnung.getRenr());
+            pStmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public Rechnung getRechnungByRenr(int renr){
+        Rechnung r =new Rechnung();
+        String select="";
+        select += "SELECT Gesamtbetrag, KDNR, Datum, Renr ";
+        select += " FROM Rechnungen WHERE renr = ? " ;
+        try {
+            PreparedStatement prepStatement= con.prepareStatement(select);
+            prepStatement.setInt(1,renr);
+            // Statement stmt= con.createStatement();
+            ResultSet rs = prepStatement.executeQuery();
+
+            if (rs.next()){
+                r.setGesamtbetrag(rs.getDouble("Gesamtbetrag"));
+                r.setKdnr(rs.getInt("Kdnr"));
+                r.setDatum(rs.getString("Datum"));
+                r.setRenr(rs.getInt(("Renr")));
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return r;
+
+    }
+
+    public void deleteKundeByKdnr(int kdnr)
+    {
+        String deleteSQL="";
+        deleteSQL += "DELETE FROm  KUNDEN";
+        deleteSQL += " WHERE KDNR = ? " ;
+        try {
+            PreparedStatement prepStatement= con.prepareStatement(deleteSQL);
+            prepStatement.setInt(1,kdnr);
+            prepStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public void deleteRechnungByRenr(int renr)
+    {
+
+        String deleteSQL="";
+        deleteSQL += "DELETE FROm  Rechnungen ";
+        deleteSQL += " WHERE Renr = ? " ;
+        try {
+            PreparedStatement prepStatement= con.prepareStatement(deleteSQL);
+            prepStatement.setInt(1,renr);
+            prepStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<Rechnung> getRechnungenByKdnr(int kdnr){
+        ArrayList<Rechnung> rechnungen =new ArrayList<Rechnung>();
+
+        String select="";
+        select += "SELECT Gesamtbetrag, KDNR, Datum, Renr ";
+        select += " FROM Rechnungen WHERE Kdnr = ? " ;
+        try {
+            PreparedStatement prepStatement= con.prepareStatement(select);
+            prepStatement.setInt(1,kdnr);
+            // Statement stmt= con.createStatement();
+            ResultSet rs = prepStatement.executeQuery();
+
+            while (rs.next()){
+                Rechnung r =new Rechnung();
+                r.setGesamtbetrag(rs.getDouble("Gesamtbetrag"));
+                r.setKdnr(rs.getInt("Kdnr"));
+                r.setDatum(rs.getString("Datum"));
+                r.setRenr(rs.getInt(("Renr")));
+                rechnungen.add(r);
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rechnungen;
+
+    }
+
+    public void loescheAlleRechnungenUndDanachDenKunden(Kunde k)
+    {
+
+        //DELET FROM RECHNUNGEN WHERE KDNR=?
+        ArrayList<Rechnung> rechnungen = getRechnungenByKdnr(k.getKdnr());
+        for (Rechnung r : rechnungen) {
+            deleteRechnungByRenr(r.getRenr());
+        }
+        deleteKundeByKdnr(k.getKdnr());
+    }
 }
+
+
+// 10:30 Uhr Auflösung
+//public void insertKundeUndRechnungen(ArrayList<Rechnung> neueRechnungen, Kunde neuerKunde)
+//public void updateRechnung(Rechnung neueRechnung) Set Betrag=?, Kdnr=? WHERE Renr=?
+//public List<Rechnung> getRechnungenByKunde(int kdnr)  FROM Rechnungen WHERE Kdnr=?
+//public void loescheAlleRechnungenUndDanachDenKunden(Kunde k)
+//DELETE FROM  RECHNUNGEN WHERE KDNR=? --> affected 17
+//DELETE FROM  Kunden WHERE KDNR=? ---> affected 1
+

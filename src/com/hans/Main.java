@@ -75,6 +75,35 @@ public class Main {
         List<Kunde> alleWeiblicheKunden = kv.getAlleWeiblichenKundenInnen();
         System.out.println(alleWeiblicheKunden);
 
+        Kunde kAufgabe7=new Kunde();
+        kAufgabe7.setKdnr(3);
+        kAufgabe7.setVorname("Britta");
+        kAufgabe7.setNachname("Maier");
+        kAufgabe7.setGeschlecht("Frau");
+        kAufgabe7.setBonuspunkte(400);
+
+        Rechnung rNeu1 =new Rechnung();
+        rNeu1.setRenr(-1); //Readability
+        rNeu1.setDatum("1.5.2020");
+        rNeu1.setGesamtbetrag(5000);
+
+        ArrayList<Rechnung> rechnungen =new ArrayList<Rechnung>();
+        rechnungen.add(rNeu1);
+
+        kv.insertKundeUndRechnungen(rechnungen,kAufgabe7);
+        System.out.println("Vor Änderung");
+        System.out.println(rNeu1);
+        rNeu1.setGesamtbetrag(7000);
+        kv.updateRechnung(rNeu1);
+        System.out.println("Nach Änderung");
+
+        Rechnung geaenderteRechnung = kv.getRechnungByRenr(rNeu1.getRenr());
+
+        Kunde kundeNachladen = kv.getKundeByKdnr(geaenderteRechnung.getKdnr());
+        geaenderteRechnung.kunde=kundeNachladen;
+        System.out.println(geaenderteRechnung);
+
+
     }
 
     public static void Woche2()

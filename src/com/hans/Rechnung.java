@@ -4,7 +4,7 @@ public class Rechnung {
     private String datum;
     private double gesamtbetrag;
     private int kdnr; //Foreign Key
-    private Kunde kunde; //oder Object
+    public Kunde kunde; //oder Object
 
     @Override
     public String toString() {
