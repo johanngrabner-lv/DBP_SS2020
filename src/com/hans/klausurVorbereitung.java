@@ -458,6 +458,17 @@ public class klausurVorbereitung {
     }
 }
 
+//Klausur
+//CREATE TABLE ... PK AutoIncrement
+//DML -- Insert Update Delete, last_inserted_rowid()
+//DQL - WHERE
+//Metadaten
+
+//08:30 bis 11:00 Uhr --> ZIP (*.java) Moodle
+//Annahmen bei nicht verständlichen Angaben
+
+
+//UPDATE Table SET S1=?, S2=? WHERE Kriterium = ?
 
 // 10:30 Uhr Auflösung
 //public void insertKundeUndRechnungen(ArrayList<Rechnung> neueRechnungen, Kunde neuerKunde)
