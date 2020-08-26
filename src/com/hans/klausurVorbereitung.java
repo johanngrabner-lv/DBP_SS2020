@@ -206,6 +206,51 @@ public class klausurVorbereitung {
         return k;
 
     }
+
+    public Kunde getKundeMitMeistenBonuspunkten(){
+        Kunde k =new Kunde();
+        String select="";
+        select += "SELECT KDNR, Vorname, Nachname, Geschlecht, Bonuspunkte  ";
+        select += " FROM Kunden ORDER BY Bonuspunkte DESC; " ;
+
+        //SELECT mAX(Bonuspunkte), Vorname FROM Kunden
+
+        try {
+            PreparedStatement prepStatement= con.prepareStatement(select);
+            prepStatement.setInt(1,kdnr);
+            // Statement stmt= con.createStatement();
+            ResultSet rs = prepStatement.executeQuery();
+
+            if (rs.next()){
+
+                k.setKdnr(rs.getInt("Kdnr"));
+                k.setVorname(rs.getString("Vorname"));
+
+                if (rs.wasNull())
+                    k.setVorname("Vorname war null");
+
+                k.setNachname(rs.getString("Nachname"));
+                k.setGeschlecht(rs.getString("Geschlecht"));
+                if (rs.wasNull())
+                    k.setGeschlecht("Unbekannt");
+
+                String geschlecht = rs.getString("Geschlecht");
+                if (geschlecht==null)
+                    k.setGeschlecht("unbekannt");
+
+
+                k.setBonuspunkte(rs.getDouble("Bonuspunkte"));
+
+
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return k;
+
+    }
     public List<Kunde> getAlleKunden() {
         List<Kunde> ergebnis = new ArrayList<Kunde>();
         String select = "";
@@ -464,7 +509,7 @@ public class klausurVorbereitung {
 //DQL - WHERE
 //Metadaten
 
-//08:30 bis 11:00 Uhr --> ZIP (*.java) Moodle
+//08:30 (10 Minuten -  Klausurvorstellung) bis 11:00 Uhr --> ZIP (*.java) Moodle
 //Annahmen bei nicht verständlichen Angaben
 
 
