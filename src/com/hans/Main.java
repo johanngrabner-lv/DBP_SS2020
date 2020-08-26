@@ -103,7 +103,11 @@ public class Main {
         geaenderteRechnung.kunde=kundeNachladen;
         System.out.println(geaenderteRechnung);
 
+        kv.loescheAlleRechnungenUndDanachDenKunden(kundeNachladen);
 
+        System.out.println("Alle Kunden nach löschen");
+        List<Kunde> alleKundenNachLoeschen = kv.getAlleKunden();
+        System.out.println(alleKundenNachLoeschen);
     }
 
     public static void Woche2()
